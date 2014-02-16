@@ -1,5 +1,11 @@
 ;(function($){
 	$("document").ready(function(){
+		// 跨域控制
+		$( document ).bind( "mobileinit", function() {
+		    // Make your jQuery Mobile framework configuration changes here!
+
+		    $.mobile.allowCrossDomainPages = true;
+		});
 		// 表单查询信息
 		var formObj = {
 			action: 'http://218.206.27.193:8080/cqflyingCityHTTPServer/externalAction!external.action',
