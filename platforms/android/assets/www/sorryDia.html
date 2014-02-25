@@ -1,5 +1,5 @@
 <!-- Dialog -->
-<div data-role="page" id="sorryDia">
+<div data-role="dialog" id="sorryDia">
     <div data-role="header">
         <h1>这是错误信息</h1>
     </div>
@@ -9,6 +9,14 @@
     </div>
 
     <div data-role="footer">
-        <h1>错误反馈：sconfield@163.com</h1>
+        <h1>错误反馈：isconfield@gmail.com</h1>
     </div>
+	<script type="text/javascript">
+		$("body").click(function(event){
+			if ($(event.target).attr('id') == "sorryDia") {
+				$("#sorryDia").dialog("close");
+				$("body").unbind("click");
+			}
+		});
+	</script>
 </div>

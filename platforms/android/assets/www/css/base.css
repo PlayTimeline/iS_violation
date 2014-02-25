@@ -1,0 +1,9 @@
+.ui-icon-myicon:after {
+    background-image: url("../img/skull.png");
+    /* Make your icon fit */
+    background-size: 18px 18px;
+}
+
+.ui-dialog-contain {
+	max-width: 100%;
+}

@@ -68,14 +68,16 @@
 			 * @param  {[type]} count [description] h2标签的个数
 			 * @return {[type]}       [description] 退出迭代
 			 */
-			showH2: function(count){
+			showDiv: function(count){
 				var $box = $(this);
-				$box.find("h2:hidden:first").fadeIn('slow', function() {
-					if (count != 1) {
-						$box.showH2(count-1);
-					}
-					return ;
+				$box.find("div.custom-corners:hidden:first").show("slow", function() {
+					$(this).find("div.ui-body").slideDown("slow", function(){
+						if (count != 1) {
+							$box.showDiv(count-1);
+						}
+					});
 				});
+				return ;
 			}
 		});
 
@@ -101,12 +103,13 @@
 
 				var url = formObj.action + "?" + $.param(formObj.param);
 				$.getJSON(url, function(info){
+					// data for debug
 					if ($.isPlainObject(info)) {
 						// TODO 1.1版本全局缓存
 						var car = info.CarInfo;
 						var type = (car.Hpzl=="01")?"大车车":"小车车";
 
-						var h2Head = "<h2 style='display:none;'>"+car.Clpp1+type+"\t渝"+car.Hphm+"</h2><br/>";
+						var h2Head = '<h2><a href="javascript:location.reload();">'+car.Clpp1+type+'\t渝'+car.Hphm+'</a></h2><br/>';
 						var $box = $("#carBox").append(h2Head);
 
 						var score = 0;
@@ -114,21 +117,28 @@
 						$.each(info.List, function(){
 							score += parseInt(this.Jfz);
 							money += parseInt(this.Fkje);
-							var h2List = "<h2 style='display:none;'>"+this.Wfsj+"</h2>";
-							h2List += "<h2 style='display:none;'>"+this.Wfdd+"</h2>";
-							h2List += "<h2 style='display:none;'>"+this.Wfxwmc+"</h2>";
-							h2List += "<h2 style='display:none;'>扣分："+this.Jfz+"分</h2>";
-							h2List += "<h2 style='display:none;'>罚款："+this.Fkje+"大洋</h2>";
-							$box.append(h2List+"<br/>");
+							var h2List = '<h2>'+this.Wfdd+'</h2>';
+							h2List += '<h2>'+this.Wfxwmc+'</h2>';
+							h2List += '<h2>扣分：'+this.Jfz+'分</h2>';
+							h2List += '<h2>罚款：'+this.Fkje+'大洋</h2>';
+
+							var divList = '<div class="ui-corner-all custom-corners" style="display:none;"><div class="ui-bar ui-bar-a"><h3>';
+							divList += this.Wfsj+'</h3></div>';
+							divList += '<div class="ui-body ui-body-a" style="display:none;">';
+							divList += h2List + '</div></div>';
+
+							console.log(divList);
+
+							$box.append(divList+'<br/>');
 						});
 
-						var h2Foot = "<h2 style='display:none;'>目前有"+info.Count+"次未处理的违章</h2>";
-						h2Foot += "<h2 style='display:none;'>一哈出脱"+score+"分</h2>";
-						h2Foot += "<h2 style='display:none;'>总计罚款"+money+"元</h2>";
+						var h2Foot = "<h2>目前有"+info.Count+"次未处理的违章</h2>";
+						h2Foot += "<h2>一哈出脱"+score+"分</h2>";
+						h2Foot += "<h2>总计罚款"+money+"元</h2>";
 						$box.append(h2Foot);
 
 						// 显示数据
-						$box.showH2($box.find("h2").size());
+						$box.showDiv($box.find("div.custom-corners").size());
 					}
 				});
 				return ;
